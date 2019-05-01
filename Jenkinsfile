@@ -9,8 +9,19 @@ podTemplate(label: label, containers: [
 
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-])           
+]),           
 
-stage('Checkout'){
-          checkout scm
-}
+stage('Test') {
+      try {
+        container('gradle') {
+          sh """
+            npm install
+            npm test
+            """
+        }
+      }
+      catch (exc) {
+        println "Failed to test - ${currentBuild.fullDisplayName}"
+        throw(exc)
+      }
+    }
