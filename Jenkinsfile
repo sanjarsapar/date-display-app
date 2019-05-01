@@ -17,7 +17,7 @@ node(label) {
     }
     stage('Test') {
         try {
-            container('gradle') {
+            container('node') {
             sh """
                 npm install
                 npm test
@@ -28,5 +28,5 @@ node(label) {
             println "Failed to test - ${currentBuild.fullDisplayName}"
             throw(exc)
         }
-        }
+     }
   }
